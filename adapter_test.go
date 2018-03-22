@@ -1,30 +1,11 @@
-# string-adapter
-string  adapter for Casbin https://github.com/casbin/casbin 
-
-# Installation
-
-go get github.com/qiangmzsx/string-adapter
-
-
-
-# Simple Example
-```go  
-package main
+package string_adapter
 
 import (
-	"fmt"
 	"github.com/casbin/casbin"
-	scas "github.com/qiangmzsx/string-adapter"
-	"github.com/casbin/casbin/file-adapter"
+	"testing"
 )
 
-func main() {
-	KeyMatchRbac()
-	//StringRbac()
-	//UserRbac()
-}
-
-func KeyMatchRbac() {
+func Test_KeyMatchRbac(t *testing.T) {
 	conf := `
 [request_definition]
 r = sub, obj, act
@@ -48,19 +29,17 @@ p, data_group_admin, /admin/*, POST
 p, data_group_admin, /bob_data/*, POST
 g, alice, data_group_admin
 `
-	sa := scas.NewAdapter(line)
+	sa := NewAdapter(line)
 	e := casbin.NewEnforcer(casbin.NewModel(conf), sa)
 	sub := "alice"
 	obj := "/alice_data1/login"
 	act := "POST"
-	if e.Enforce(sub, obj, act) == true {
-		fmt.Println("**YES**")
-	} else {
-		fmt.Println("--NO--")
+	if e.Enforce(sub, obj, act) != true {
+		t.Error("**error**")
 	}
 }
 
-func StringRbac() {
+func Test_StringRbac(t *testing.T) {
 	conf := `
 [request_definition]
 r = sub, obj, act
@@ -83,15 +62,12 @@ p, data_group_admin, data3, read
 p, data_group_admin, data3, write
 g, alice, data_group_admin
 `
-	sa := scas.NewAdapter(line)
+	sa := NewAdapter(line)
 	e := casbin.NewEnforcer(casbin.NewModel(conf), sa)
 	sub := "alice" // the user that wants to access a resource.
 	obj := "data1" // the resource that is going to be accessed.
-	act := "write" // the operation that the user performs on the resource.
-	if e.Enforce(sub, obj, act) == true {
-		fmt.Println("**YES**")
-	} else {
-		fmt.Println("--NO--")
+	act := "read" // the operation that the user performs on the resource.
+	if e.Enforce(sub, obj, act) != true {
+		t.Error("**error**")
 	}
 }
-```

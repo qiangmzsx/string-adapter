@@ -42,6 +42,9 @@ func (sa *Adapter) LoadPolicy(model model.Model) error {
 	}
 	strs := strings.Split(sa.Line, "\n")
 	for _, str := range strs {
+		if str=="" {
+			continue
+		}
 		persist.LoadPolicyLine(str, model)
 	}
 

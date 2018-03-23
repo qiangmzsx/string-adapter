@@ -32,7 +32,7 @@ g, alice, data_group_admin
 	sa := NewAdapter(line)
 	e := casbin.NewEnforcer(casbin.NewModel(conf), sa)
 	sub := "alice"
-	obj := "/alice_data1/login"
+	obj := "/alice_data/login"
 	act := "POST"
 	if e.Enforce(sub, obj, act) != true {
 		t.Error("**error**")

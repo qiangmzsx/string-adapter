@@ -3,10 +3,11 @@ package string_adapter
 import (
 	"bytes"
 	"errors"
-	"github.com/casbin/casbin/model"
-	"github.com/casbin/casbin/persist"
-	"github.com/casbin/casbin/util"
 	"strings"
+
+	"github.com/casbin/casbin/v2/model"
+	"github.com/casbin/casbin/v2/persist"
+	"github.com/casbin/casbin/v2/util"
 )
 
 /*type Adapter interface {
@@ -42,7 +43,7 @@ func (sa *Adapter) LoadPolicy(model model.Model) error {
 	}
 	strs := strings.Split(sa.Line, "\n")
 	for _, str := range strs {
-		if str=="" {
+		if str == "" {
 			continue
 		}
 		persist.LoadPolicyLine(str, model)

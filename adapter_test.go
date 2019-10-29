@@ -1,8 +1,10 @@
 package string_adapter
 
 import (
-	"github.com/casbin/casbin"
 	"testing"
+
+	"github.com/casbin/casbin/v2"
+	"github.com/casbin/casbin/v2/model"
 )
 
 func Test_KeyMatchRbac(t *testing.T) {
@@ -30,11 +32,17 @@ p, data_group_admin, /bob_data/*, POST
 g, alice, data_group_admin
 `
 	sa := NewAdapter(line)
-	e := casbin.NewEnforcer(casbin.NewModel(conf), sa)
+	md := model.NewModel()
+	err := md.LoadModelFromText(conf)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	e, _ := casbin.NewEnforcer(md, sa)
 	sub := "alice"
 	obj := "/alice_data/login"
 	act := "POST"
-	if e.Enforce(sub, obj, act) != true {
+	if res, _ := e.Enforce(sub, obj, act); res != true {
 		t.Error("**error**")
 	}
 }
@@ -63,11 +71,17 @@ p, data_group_admin, data3, write
 g, alice, data_group_admin
 `
 	sa := NewAdapter(line)
-	e := casbin.NewEnforcer(casbin.NewModel(conf), sa)
+	md := model.NewModel()
+	err := md.LoadModelFromText(conf)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	e, _ := casbin.NewEnforcer(md, sa)
 	sub := "alice" // the user that wants to access a resource.
 	obj := "data1" // the resource that is going to be accessed.
-	act := "read" // the operation that the user performs on the resource.
-	if e.Enforce(sub, obj, act) != true {
+	act := "read"  // the operation that the user performs on the resource.
+	if res, _ := e.Enforce(sub, obj, act); res != true {
 		t.Error("**error**")
 	}
 }

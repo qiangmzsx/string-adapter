@@ -18,22 +18,28 @@ r = sub, obj, act
 [policy_definition]
 p = sub, obj, act
 
+[role_definition]
+g = _, _
+g2 = _, _
+
 [policy_effect]
 e = some(where (p.eft == allow))
 
 [matchers]
-m = r.sub == r.obj.Owner`
+m = g(r.sub, p.sub) && g2(r.obj, p.obj) && r.act == p.act`
 
 	m := model.Model{}
 
 	m.LoadModelFromText(modelText)
 
 	line := `
-p, alice, /alice_data/*, (GET)|(POST)
-p, alice, /alice_data/resource1, POST
-p, data_group_admin, /admin/*, POST
-p, data_group_admin, /bob_data/*, POST
+p, alice, data1, read
+p, bob, data2, write
+p, data_group_admin, data_group, write
+
 g, alice, data_group_admin
+g2, data1, data_group
+g2, data2, data_group
 `
 	sa := scas.NewAdapter(line)
 

@@ -8,6 +8,7 @@ go get github.com/qiangmzsx/string-adapter
 
 
 # Simple Example
+## casbin v1
 ```go  
 package main
 
@@ -94,4 +95,9 @@ g, alice, data_group_admin
 		fmt.Println("--NO--")
 	}
 }
+```
+
+## casbin v2
+```go
+
 ```

@@ -1,4 +1,4 @@
-module github.com/qiangmzsx/string-adapter
+module github.com/qiangmzsx/string-adapter/v2
 
 go 1.12
 

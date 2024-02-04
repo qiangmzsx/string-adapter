@@ -129,7 +129,7 @@ e = some(where (p.eft == allow))
 [matchers]
 m = g(r.sub, p.sub) && g2(r.obj, p.obj) && r.act == p.act`
 
-	m := model.Model{}
+	m := model.NewModel()
 
 	m.LoadModelFromText(modelText)
 
